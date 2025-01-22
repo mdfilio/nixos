@@ -8,7 +8,7 @@
     ];
 
   # https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; 
+  system.stateVersion = "24.11"; 
   
 
   boot.loader.systemd-boot.enable = true;
@@ -16,7 +16,6 @@
 
 
   #Kernel
-  #boot.kernelPackages = pkgs.linuxPackages_6_9; #latest kernel fails to build nvida
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "nvidia_uvm" "nvidia_modeset" "nvidia_drm" "nvidia" "glanimate" ];
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "nvme" "sd_mod" "sr_mod" ];
@@ -27,7 +26,6 @@
   hardware.bluetooth.enable = true;
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.powerManagement.enable = false;
-  # hardware.opengl.enable = true; renamed
   hardware.graphics.enable = true;
   hardware.nvidia.open = false;
   hardware.nvidia.nvidiaSettings = true;
@@ -66,9 +64,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Laptop touchpad
-  # services.libinput.enable = true;
-
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -87,7 +82,7 @@
     # Enable docker daemon to start on boot
     enableOnBoot = true;
     # Optional: Enable nvidia-docker support if you use NVIDIA GPU
-    # enableNvidia = true;
+    enableNvidia = false;
     
     # Optional: Configure Docker daemon settings
     daemon.settings = {
@@ -124,7 +119,7 @@
   users.users.mfilio = {
     isNormalUser = true;
     description = "mfilio";
-    extraGroups = [ "networkmanager" "wheel" "adbusers" "docker" "containerd" ];
+    extraGroups = [ "networkmanager" "wheel" "adbusers" "docker" ];
     packages = with pkgs; [
        # enabled in system currently      
     ];
@@ -207,20 +202,19 @@
     enter-tex #replaced gnome-latex
     remmina
     gnomecast
-    gnome.sushi
-    gnome.gnome-shell
-    gnome.gnome-shell-extensions
-    gnome.gnome-disk-utility
-    gnome.gnome-tweaks
-    gnome.zenity
-    gnome.gpaste
-    gnome.cheese
-    #gnome.vinagre removed upstream - 
+    sushi
+    gnome-shell
+    gnome-shell-extensions
+    gnome-disk-utility
+    gnome-tweaks
+    zenity
+    gpaste
+    cheese
     gnome.gvfs
-    gnome.networkmanager-openvpn
-    gnome.nautilus
-    gnome.nautilus-python
-    gnome.dconf-editor
+    networkmanager-openvpn
+    nautilus
+    nautilus-python
+    dconf-editor
 
     # gaming
     steam
@@ -243,7 +237,6 @@
 
     # Rust cli or replacements
     ripgrep-all
-    ripgrep
     mtrace
     bat
     procs
@@ -287,21 +280,18 @@
     runc
     cni
     cni-plugins
-    # toybox - causes collisions
     terraform
-    # tfenv -  no package
-    # nodejs - will use npv
     rustup
     sublime4
     sublime-merge
     go
+    zig
     vscode
     kubectl
     fluxcd
     fluxctl
     google-chrome
     just
-    # zarf - pkg behind newer releases
     kubernetes-helm
     istioctl
     gcc
