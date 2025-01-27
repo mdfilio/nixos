@@ -327,7 +327,10 @@
   environment.variables.SUDO = "${pkgs.sudo-rs}/bin/sudo";
   environment.variables.SUDO_EDITOR = "${pkgs.sudo-rs}/bin/sudo-edit";
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings.X11Forwarding = true;
+  };
 
   services.avahi = {
     enable = true;
