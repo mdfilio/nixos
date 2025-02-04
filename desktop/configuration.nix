@@ -16,7 +16,7 @@
 
 
   #Kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.kernelModules = [ "nvidia_uvm" "nvidia_modeset" "nvidia_drm" "nvidia" "glanimate" ];
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "nvme" "sd_mod" "sr_mod" ];
   boot.supportedFilesystems = [ "ext4" "vfat" "ntfs" "exfat" ];
@@ -29,7 +29,7 @@
   hardware.graphics.enable = true;
   hardware.nvidia.open = false;
   hardware.nvidia.nvidiaSettings = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.production;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
 
   networking.hostName = "ookami";
@@ -108,14 +108,13 @@
           };
         };
         # Optional: Configure registry mirrors
-        registry.mirrors."docker.io" = {
-          endpoint = [ "https://registry-1.docker.io" ];
-        };
+        #registry.mirrors."docker.io" = {
+        #  endpoint = [ "https://registry-1.docker.io" ];
+        #};
       };
     };
   };  
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mfilio = {
     isNormalUser = true;
     description = "mfilio";
@@ -124,7 +123,6 @@
        # enabled in system currently      
     ];
   };
-
 
   # Allow unfree packages and openssl-1.1.1w
   nixpkgs.config = {
@@ -237,6 +235,7 @@
 
     # Rust cli or replacements
     ripgrep-all
+    ripgrep
     mtrace
     bat
     procs
@@ -275,6 +274,7 @@
     powershell
     k9s
     poetry
+    nvidia-docker
     docker-compose
     containerd
     runc
