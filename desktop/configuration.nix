@@ -10,7 +10,6 @@
   # https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; 
   
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -31,6 +30,8 @@
   hardware.nvidia.nvidiaSettings = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
+  # add flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "ookami";
   networking.networkmanager.enable = true;
@@ -124,7 +125,8 @@
     ];
   };
 
-  # Allow unfree packages and openssl-1.1.1w
+  # Allow unfree packages and openssl-1.1.1w (which allows sublime4)
+  # This does not affect openssl used with openssh
   nixpkgs.config = {
      allowUnfree = true;
      permittedInsecurePackages = [
@@ -166,6 +168,8 @@
 
   environment.systemPackages = with pkgs; [
     # system utils
+    openssh
+    openssl
     psmisc
     cifs-utils
     nfs-utils
@@ -174,7 +178,6 @@
     gparted
     parted
     linuxPackages_zen.cpupower
-    openssl
     usbutils
     moreutils
     nvme-cli
