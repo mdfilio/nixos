@@ -285,6 +285,7 @@
     cni-plugins
     terraform
     rustup
+    zed-editor
     sublime4
     sublime-merge
     go
@@ -333,6 +334,7 @@
   services.openssh = {
     enable = true;
     settings.X11Forwarding = true;
+    settings.PasswordAuthentication = false;
   };
 
   services.avahi = {
